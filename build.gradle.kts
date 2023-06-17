@@ -1,9 +1,12 @@
 plugins {
-    kotlin("multiplatform") version "1.8.22"
+    alias(libs.plugins.org.jetbrains.kotlin.multiplatform)
+    alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
+    alias(libs.plugins.org.jlleitschuh.gradle.ktlint)
+    alias(libs.plugins.io.gitlab.arturbosch.detekt)
 }
 
-group = "com.rjspies"
-version = "1.0-alpha.1"
+group = libs.versions.group.get()
+version = libs.versions.version.get()
 
 repositories {
     mavenCentral()
@@ -12,22 +15,18 @@ repositories {
 kotlin {
     macosX64("native") {
         binaries {
-            executable()
+            executable {
+                entryPoint = "main"
+            }
         }
     }
 
     sourceSets {
+        @Suppress("UNUSED_VARIABLE")
         val nativeMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-core:2.3.1")
-                implementation("io.ktor:ktor-client-cio:2.3.1")
+                implementation(libs.bundles.implementation)
             }
         }
-        val nativeTest by getting
     }
-}
-
-tasks.withType<Wrapper> {
-    gradleVersion = "8.0"
-    distributionType = Wrapper.DistributionType.ALL
 }
