@@ -10,7 +10,7 @@ jobs:
       - name: Detekt + KtLint
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: detektRelease ktlintCheck
+          arguments: detektNativeMain detektNativeTest ktlintCheck
 
       - name: Build
         uses: gradle/gradle-build-action@v2
