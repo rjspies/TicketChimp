@@ -1,5 +1,5 @@
 plugins {
-    kotlin("multiplatform") version "1.8.21"
+    kotlin("multiplatform") version "1.8.22"
 }
 
 group = "com.rjspies"
@@ -10,24 +10,24 @@ repositories {
 }
 
 kotlin {
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
-
-    nativeTarget.apply {
+    macosX64("native") {
         binaries {
-            executable {
-                entryPoint = "main"
-            }
+            executable()
         }
     }
+
     sourceSets {
-        val nativeMain by getting
+        val nativeMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-core:2.3.1")
+                implementation("io.ktor:ktor-client-cio:2.3.1")
+            }
+        }
         val nativeTest by getting
     }
+}
+
+tasks.withType<Wrapper> {
+    gradleVersion = "8.0"
+    distributionType = Wrapper.DistributionType.ALL
 }
