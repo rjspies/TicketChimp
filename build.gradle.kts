@@ -22,16 +22,11 @@ kotlin {
     }
 
     sourceSets {
+        @Suppress("UNUSED_VARIABLE")
         val nativeMain by getting {
             dependencies {
                 implementation(libs.bundles.implementation)
             }
         }
-        val nativeTest by getting
     }
-}
-
-tasks.withType<Wrapper> {
-    gradleVersion = libs.versions.gradle.get()
-    distributionType = Wrapper.DistributionType.ALL
 }
