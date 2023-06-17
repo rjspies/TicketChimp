@@ -35,7 +35,7 @@ fun createKtorHttpClient(
     }
 
     defaultRequest {
-        bearerAuth(getenv(tokenKey)?.toKString() ?: throw Exception("Env"))
+        bearerAuth(getenv(tokenKey)?.toKString() ?: throw IllegalArgumentException("Jira authentication token is null"))
         url {
             protocol = URLProtocol.HTTPS
             this.host = host
