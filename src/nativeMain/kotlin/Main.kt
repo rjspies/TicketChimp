@@ -12,14 +12,15 @@ fun main(arguments: Array<String>) {
     val setupManager = PosixSetupManager()
     if (firstArgument.startsWith("-")) {
         setupManager.launchSetup()
-    } else if (!setupManager.configExists) {
-        throw IllegalArgumentException("You first need to go through the setup using the \"-setup\" option")
+    }
+    require(setupManager.configExists) {
+        "Config file does not exist"
     }
     val config = setupManager.readConfig()
     setupManager.close()
 
     val httpClient = createKtorHttpClient(
-        tokenKey = config.tokenKey ?: throw Exception("No token key provided"),
+        tokenKey = config.tokenKey ?: throw IllegalArgumentException("No token key provided"),
         host = "host",
     )
 

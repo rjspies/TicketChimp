@@ -28,7 +28,9 @@ class PosixSetupManager : Closeable {
             mkdir(configFile().substringBeforeLast("/"), S_IRWXU)
         }
         val fileDescriptor = open(configFile(), O_RDWR or O_CREAT or O_TRUNC, S_IRUSR or S_IWUSR)
-        if (fileDescriptor == -1) throw Exception("File descriptor is -1") // TODO throw specific exception
+        require(fileDescriptor != -1) {
+            "File descriptor is -1"
+        } // TODO throw specific exception
         fileDescriptor
     }
 
@@ -38,7 +40,7 @@ class PosixSetupManager : Closeable {
         get() = fileExists(configFile())
 
     private fun configFile(): String {
-        val homeDirectory = getenv("HOME")?.toKString()?.trimEnd('/') ?: throw IllegalArgumentException() // TODO throw specific exception
+        val homeDirectory = getenv("HOME")?.toKString()?.trimEnd('/') ?: throw IllegalArgumentException("Home environment variable not found") // TODO throw specific exception
         return "$homeDirectory/$RELATIVE_CONFIG_PATH"
     }
 
@@ -53,13 +55,13 @@ class PosixSetupManager : Closeable {
 
     private fun ask(question: String): Boolean {
         println(question)
-        val rawAnswer = readlnOrNull() ?: throw Exception("Input cannot be null") // TODO throw specific exception
+        val rawAnswer = readlnOrNull() ?: throw IllegalArgumentException("Input cannot be null") // TODO throw specific exception
         return "y" == rawAnswer
     }
 
     private fun askString(question: String): String {
         println(question)
-        return readlnOrNull() ?: throw Exception("Input cannot be null") // TODO throw specific exception
+        return readlnOrNull() ?: throw IllegalArgumentException("Input cannot be null") // TODO throw specific exception
     }
 
     fun launchSetup() {
