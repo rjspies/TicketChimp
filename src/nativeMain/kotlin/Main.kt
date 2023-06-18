@@ -7,16 +7,26 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 fun main(arguments: Array<String>) {
-    val ticketKey = arguments.firstOrNull() ?: throw IllegalArgumentException("The first argument must be the key of the Jira issue")
+    val firstArgument = arguments.firstOrNull() ?: throw IllegalArgumentException("The first argument must be the key of the Jira issue")
+
+    val setupManager = PosixSetupManager()
+    if (firstArgument.startsWith("-")) {
+        setupManager.launchSetup()
+    }
+    require(setupManager.configExists) {
+        "Config file does not exist"
+    }
+    val config = setupManager.readConfig()
+    setupManager.close()
 
     val httpClient = createKtorHttpClient(
-        tokenKey = "QM_JIRA_TICKET_PRAKTIKANT_TOKEN",
-        host = "jira.quartett-mobile.de",
+        tokenKey = config.tokenKey ?: throw IllegalArgumentException("No token key provided"),
+        host = "host",
     )
 
     httpClient.use {
         runBlocking {
-            val issue: Issue = it.get(Ticket(ticketKey)).body()
+            val issue: Issue = it.get(Ticket(firstArgument)).body()
             println("key = ${issue.key}")
         }
     }
