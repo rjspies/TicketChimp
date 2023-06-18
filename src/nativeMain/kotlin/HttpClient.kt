@@ -7,6 +7,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.resources.Resources
+import io.ktor.client.request.basicAuth
 import io.ktor.client.request.bearerAuth
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
@@ -18,6 +19,7 @@ import platform.posix.getenv
 fun createKtorHttpClient(
     tokenKey: String,
     host: String,
+    username: String? = null,
 ) = HttpClient(Curl) {
     install(Resources)
 
@@ -35,7 +37,8 @@ fun createKtorHttpClient(
     }
 
     defaultRequest {
-        bearerAuth(getenv(tokenKey)?.toKString() ?: throw IllegalArgumentException("Jira authentication token is null"))
+        val token = getenv(tokenKey)?.toKString() ?: throw IllegalArgumentException("Jira authentication token is null")
+        if (username == null) bearerAuth(token) else basicAuth(username, token)
         url {
             protocol = URLProtocol.HTTPS
             this.host = host
