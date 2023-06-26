@@ -10,6 +10,7 @@ implementation = [
     "ktor-serialization-kotlinx-json",
     "ktor-client-logging",
     "okio",
+    "kotlinx-cli",
 ]
 
 [plugins]
@@ -35,3 +36,4 @@ ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-conte
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 okio = { group = "com.squareup.okio", name = "okio", version = "3.3.0" }
+kotlinx-cli = { group = "org.jetbrains.kotlinx", name = "kotlinx-cli", version = "0.3.5" }
