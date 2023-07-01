@@ -1,18 +1,19 @@
 import io.ktor.resources.Resource
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
-import kotlinx.cli.default
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 fun main(arguments: Array<String>) {
     val parser = ArgParser("TicketChimp")
-    val setup by parser.option(ArgType.Boolean, shortName = "s", description = "Starts the setup", fullName = "setup").default(true)
+    val setup by parser.option(ArgType.Boolean, shortName = "s", description = "Starts the setup", fullName = "setup")
     parser.parse(arguments)
 
-    if (setup) {
+    if (setup == true) {
         val setupManager = PosixSetupManager()
         setupManager.startSetup()
+    } else {
+        println("Doing nothing then")
     }
 }
 
