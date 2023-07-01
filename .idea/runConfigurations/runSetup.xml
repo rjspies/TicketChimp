@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="runSetup" type="ShConfigurationType" activateToolWindowBeforeRun="false">
+  <configuration default="false" name="runSetup" type="ShConfigurationType">
     <option name="SCRIPT_TEXT" value="" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="$PROJECT_DIR$/build/bin/native/debugExecutable/TicketChimp.kexe" />
-    <option name="SCRIPT_OPTIONS" value="-setup" />
+    <option name="SCRIPT_OPTIONS" value="-s" />
     <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
     <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
