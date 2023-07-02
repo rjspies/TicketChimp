@@ -6,7 +6,12 @@ import okio.FileSystem
 import okio.Path.Companion.toPath
 import platform.posix.getenv
 
+private val CONFIG_FILE = "${getenv("HOME")?.toKString()}/.config/ticketchimp.json".toPath()
+
 class PosixSetupManager {
+    val configExists: Boolean
+        get() = FileSystem.SYSTEM.exists(CONFIG_FILE)
+
     private fun askAuth(): AuthType? {
         println("Use basic or bearer auth? (basic/bearer):")
         return when (readlnOrNull()) {
@@ -44,8 +49,7 @@ class PosixSetupManager {
             username = username,
             tokenKey = tokenKey,
         )
-        println("${getenv("HOME")?.toKString()}/.config/ticketchimp.json")
-        FileSystem.SYSTEM.write("${getenv("HOME")?.toKString()}/.config/ticketchimp.json".toPath()) {
+        FileSystem.SYSTEM.write(CONFIG_FILE) {
             val json = Json { prettyPrint = true }
             writeUtf8(json.encodeToString(config))
         }
