@@ -15,8 +15,17 @@ class PosixSetupManager {
     private fun askAuth(): AuthType? {
         println("Use basic or bearer auth? (basic/bearer):")
         return when (readlnOrNull()) {
-            "basic" -> AuthType.Basic
-            "bearer" -> AuthType.Bearer
+            "basic" -> {
+                val username = askUsername()
+                val tokenKey = askTokenKey(true)
+                if (username != null && tokenKey != null) AuthType.Basic(username, tokenKey) else null
+            }
+
+            "bearer" -> {
+                val tokenKey = askTokenKey(false)
+                if (tokenKey != null) AuthType.Bearer(tokenKey) else null
+            }
+
             else -> null
         }
     }
@@ -38,33 +47,39 @@ class PosixSetupManager {
     }
 
     fun startSetup() {
-        val host = askHost()
-        val authType = askAuth()
-        val basicAuth = authType == AuthType.Basic
-        val username = if (basicAuth) askUsername() else null
-        val tokenKey = askTokenKey(basicAuth)
+        val host = askHost() ?: throw IllegalArgumentException("Host cannot be null or empty.")
+        val authType = askAuth() ?: throw IllegalArgumentException("Authorization cannot be null or empty.")
         val config = Config(
             host = host,
             authType = authType,
-            username = username,
-            tokenKey = tokenKey,
         )
         FileSystem.SYSTEM.write(CONFIG_FILE) {
             val json = Json { prettyPrint = true }
             writeUtf8(json.encodeToString(config))
         }
     }
+
+    fun readConfig(): Config {
+        return FileSystem.SYSTEM.read(CONFIG_FILE) {
+            val raw = readUtf8()
+            Json.decodeFromString(raw)
+        }
+    }
 }
 
-enum class AuthType {
-    Basic,
-    Bearer,
+@Serializable
+sealed class AuthType {
+    abstract val tokenKey: String
+
+    @Serializable
+    class Basic(val username: String, override val tokenKey: String) : AuthType()
+
+    @Serializable
+    class Bearer(override val tokenKey: String) : AuthType()
 }
 
 @Serializable
 data class Config(
-    val host: String?,
-    val authType: AuthType?,
-    val username: String?,
-    val tokenKey: String?,
+    val host: String,
+    val authType: AuthType,
 )

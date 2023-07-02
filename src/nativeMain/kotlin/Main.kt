@@ -1,9 +1,6 @@
-import io.ktor.resources.Resource
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.optional
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlin.system.exitProcess
 
 fun main(arguments: Array<String>) {
@@ -21,22 +18,21 @@ fun main(arguments: Array<String>) {
         }
 
         setup == true -> setupManager.startSetup()
-        ticket != null -> println("Parsing ticket...")
+        ticket != null -> {
+            val config = setupManager.readConfig()
+            val host = config.host
+            val authType = config.authType
+            val httpClient = createKtorHttpClient(
+                host = host,
+                authType = authType,
+            )
+            val ticketParser = TicketParser(httpClient)
+            ticketParser.parseTicket(ticket!!)
+        }
+
         setupManager.configExists -> {
             println("Provide a ticket number for parsing.")
             exitProcess(0)
         }
     }
 }
-
-@Resource("/issue/{key}")
-class Ticket(val key: String)
-
-@Serializable
-data class Issue(val key: String, val fields: Fields)
-
-@Serializable
-data class Fields(@SerialName("issuetype") val issueType: IssueType, val summary: String)
-
-@Serializable
-data class IssueType(val name: String)

@@ -17,9 +17,8 @@ import kotlinx.serialization.json.Json
 import platform.posix.getenv
 
 fun createKtorHttpClient(
-    tokenKey: String,
     host: String,
-    username: String? = null,
+    authType: AuthType,
 ) = HttpClient(Curl) {
     install(Resources)
 
@@ -37,8 +36,8 @@ fun createKtorHttpClient(
     }
 
     defaultRequest {
-        val token = getenv(tokenKey)?.toKString() ?: throw IllegalArgumentException("Jira authentication token is null")
-        if (username == null) bearerAuth(token) else basicAuth(username, token)
+        val token = getenv(authType.tokenKey)?.toKString() ?: throw IllegalArgumentException("Could not get token from environment variable \"${authType.tokenKey}\".")
+        if (authType is AuthType.Basic) basicAuth(authType.username, token) else bearerAuth(token)
         url {
             protocol = URLProtocol.HTTPS
             this.host = host
