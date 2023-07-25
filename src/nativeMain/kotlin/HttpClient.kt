@@ -12,10 +12,12 @@ import io.ktor.client.request.bearerAuth
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.toKString
 import kotlinx.serialization.json.Json
 import platform.posix.getenv
 
+@OptIn(ExperimentalForeignApi::class)
 fun createKtorHttpClient(
     host: String,
     authType: AuthType,

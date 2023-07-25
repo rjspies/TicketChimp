@@ -4,3 +4,4 @@
 build
 versions.properties
 local.properties
+*.hprof

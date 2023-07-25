@@ -12,8 +12,12 @@
         <list>
           <option value="detektNativeMain" />
           <option value="detektNativeTest" />
-          <option value="ktlintCheck" />
-          <option value="build" />
+          <option value="lintKotlinNativeMain" />
+          <option value="lintKotlinNativeTest" />
+          <option value="nativeTest" />
+          <option value="compileKotlinNative" />
+          <option value="compileTestKotlinNative" />
+          <option value="assemble" />
         </list>
       </option>
       <option name="vmOptions" />
@@ -21,7 +25,6 @@
     <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
     <DebugAllEnabled>false</DebugAllEnabled>
-    <ForceTestExec>false</ForceTestExec>
     <method v="2" />
   </configuration>
 </component>
