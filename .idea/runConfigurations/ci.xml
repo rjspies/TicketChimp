@@ -15,8 +15,6 @@
           <option value="lintKotlinNativeMain" />
           <option value="lintKotlinNativeTest" />
           <option value="nativeTest" />
-          <option value="compileKotlinNative" />
-          <option value="compileTestKotlinNative" />
           <option value="assemble" />
         </list>
       </option>

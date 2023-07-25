@@ -22,11 +22,6 @@ jobs:
         with:
           arguments: nativeTest
 
-      - name: Compile
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: compileKotlinNative compileTestKotlinNative
-
       - name: Assemble
         uses: gradle/gradle-build-action@v2
         with:
