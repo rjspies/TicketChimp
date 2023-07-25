@@ -1,3 +1,4 @@
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.toKString
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
@@ -6,6 +7,7 @@ import okio.FileSystem
 import okio.Path.Companion.toPath
 import platform.posix.getenv
 
+@OptIn(ExperimentalForeignApi::class)
 private val CONFIG_FILE = "${getenv("HOME")?.toKString()}/.config/ticketchimp.json".toPath()
 
 class PosixSetupManager {

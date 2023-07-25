@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.org.jetbrains.kotlin.multiplatform)
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
-    alias(libs.plugins.org.jlleitschuh.gradle.ktlint)
     alias(libs.plugins.io.gitlab.arturbosch.detekt)
+    alias(libs.plugins.org.jmailen.kotlinter)
 }
 
 group = libs.versions.group.get()
