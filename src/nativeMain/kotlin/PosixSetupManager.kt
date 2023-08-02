@@ -48,12 +48,19 @@ class PosixSetupManager {
         return readlnOrNull()
     }
 
+    private fun askRepository(): String? {
+        println("Which repository?:")
+        return readlnOrNull()
+    }
+
     fun startSetup() {
         val host = askHost() ?: throw IllegalArgumentException("Host cannot be null or empty.")
         val authType = askAuth() ?: throw IllegalArgumentException("Authorization cannot be null or empty.")
+        val repositoryPath = askRepository() ?: throw IllegalArgumentException("Repository cannot be null or empty.")
         val config = Config(
             host = host,
             authType = authType,
+            repositoryPath = repositoryPath,
         )
         FileSystem.SYSTEM.write(CONFIG_FILE) {
             val json = Json { prettyPrint = true }
@@ -84,4 +91,5 @@ sealed class AuthType {
 data class Config(
     val host: String,
     val authType: AuthType,
+    val repositoryPath: String,
 )

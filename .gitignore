@@ -1,5 +1,4 @@
 .idea/*
-!.idea/runConfigurations
 .gradle
 build
 versions.properties
