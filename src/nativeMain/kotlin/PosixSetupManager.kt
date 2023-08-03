@@ -54,9 +54,9 @@ class PosixSetupManager {
     }
 
     fun startSetup() {
-        val host = askHost() ?: throw IllegalArgumentException("Host cannot be null or empty.")
-        val authType = askAuth() ?: throw IllegalArgumentException("Authorization cannot be null or empty.")
-        val repositoryPath = askRepository() ?: throw IllegalArgumentException("Repository cannot be null or empty.")
+        val host = askHost() ?: error("Host cannot be null or empty.")
+        val authType = askAuth() ?: error("Authorization cannot be null or empty.")
+        val repositoryPath = askRepository() ?: error("Repository cannot be null or empty.")
         val config = Config(
             host = host,
             authType = authType,
