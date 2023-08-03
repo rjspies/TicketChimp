@@ -5,7 +5,8 @@ class Git {
         get() = when (name) {
             "User story",
             "Developer story",
-            "Spike" -> "Feature"
+            "Spike",
+            -> "Feature"
             "Bug" -> "Bugfix"
             else -> null
         }
