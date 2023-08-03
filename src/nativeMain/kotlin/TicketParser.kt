@@ -2,16 +2,12 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.get
 import io.ktor.resources.Resource
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 class TicketParser(private val httpClient: HttpClient) {
-    fun parseTicket(ticketKey: String) {
-        runBlocking {
-            val issue = httpClient.get(Ticket(ticketKey)).body<Issue>()
-            println(issue)
-        }
+    suspend fun parseTicket(ticketKey: String): Issue {
+        return httpClient.get(Ticket(ticketKey)).body<Issue>()
     }
 }
 

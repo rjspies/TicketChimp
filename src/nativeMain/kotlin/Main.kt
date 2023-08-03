@@ -1,15 +1,15 @@
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.optional
+import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
 fun main(arguments: Array<String>) {
     val parser = ArgParser("TicketChimp")
     val setup by parser.option(ArgType.Boolean, shortName = "s", description = "Starts the setup", fullName = "setup")
     val ticket by parser.argument(ArgType.String, description = "Jira ticket number (XX-XXX)", fullName = "ticket").optional()
-    val setupManager = PosixSetupManager()
-
     parser.parse(arguments)
+    val setupManager = PosixSetupManager()
 
     when {
         !setupManager.configExists && setup != true -> {
@@ -18,7 +18,7 @@ fun main(arguments: Array<String>) {
         }
 
         setup == true -> setupManager.startSetup()
-        ticket != null -> {
+        ticket != null -> runBlocking {
             val config = setupManager.readConfig()
             val host = config.host
             val authType = config.authType
@@ -27,7 +27,8 @@ fun main(arguments: Array<String>) {
                 authType = authType,
             )
             val ticketParser = TicketParser(httpClient)
-            ticketParser.parseTicket(ticket!!)
+            val issue = ticketParser.parseTicket(ticket!!)
+            Git().createBranchFromIssue(config.repositoryPath, issue)
         }
 
         setupManager.configExists -> {
