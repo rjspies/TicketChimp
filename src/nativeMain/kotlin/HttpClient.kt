@@ -14,7 +14,6 @@ import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.toKString
-import kotlinx.serialization.json.Json
 import platform.posix.getenv
 
 @OptIn(ExperimentalForeignApi::class)
@@ -30,10 +29,6 @@ fun createKtorHttpClient(
     }
 
     install(ContentNegotiation) {
-        val json = Json {
-            prettyPrint = true
-            ignoreUnknownKeys = true
-        }
         json(json)
     }
 
