@@ -15,21 +15,21 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.toKString
 import platform.posix.getenv
+import kotlin.experimental.ExperimentalNativeApi
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
 fun createKtorHttpClient(
     host: String,
     authType: AuthType,
 ) = HttpClient(Curl) {
     install(Resources)
+    install(ContentNegotiation) { json(json) }
 
-    install(Logging) {
-        logger = Logger.DEFAULT
-        level = LogLevel.ALL
-    }
-
-    install(ContentNegotiation) {
-        json(json)
+    if (Platform.isDebugBinary) {
+        install(Logging) {
+            logger = Logger.DEFAULT
+            level = LogLevel.ALL
+        }
     }
 
     defaultRequest {
