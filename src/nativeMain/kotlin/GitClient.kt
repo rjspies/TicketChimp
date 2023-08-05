@@ -1,6 +1,6 @@
 import platform.posix.system
 
-class Git {
+class GitClient {
     private val IssueType.prefix
         get() = when (name) {
             "User story",

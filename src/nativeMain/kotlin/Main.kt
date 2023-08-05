@@ -7,7 +7,7 @@ import kotlin.system.exitProcess
 fun main(arguments: Array<String>) {
     val parser = ArgParser("TicketChimp")
     val setup by parser.option(ArgType.Boolean, shortName = "s", description = "Starts the setup", fullName = "setup")
-    val ticket by parser.argument(ArgType.String, description = "Jira ticket number (XX-XXX)", fullName = "ticket").optional()
+    val ticket by parser.argument(ArgType.String, description = "Jira ticket key (XX-XXX)", fullName = "ticket").optional()
     parser.parse(arguments)
     val setupManager = PosixSetupManager()
 
@@ -16,7 +16,6 @@ fun main(arguments: Array<String>) {
             println("No config file found. Run the setup using \"-s\" first.")
             exitProcess(0)
         }
-
         setup == true -> setupManager.startSetup()
         ticket != null -> runBlocking {
             val config = setupManager.readConfig()
@@ -28,9 +27,8 @@ fun main(arguments: Array<String>) {
             )
             val ticketParser = TicketParser(httpClient)
             val issue = ticketParser.parseTicket(ticket!!)
-            Git().createBranchFromIssue(config.repositoryPath, issue)
+            GitClient().createBranchFromIssue(config.repositoryPath, issue)
         }
-
         setupManager.configExists -> {
             println("Provide a ticket number for parsing.")
             exitProcess(0)

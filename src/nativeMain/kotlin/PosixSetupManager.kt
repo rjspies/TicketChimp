@@ -2,7 +2,6 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.toKString
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import platform.posix.getenv
@@ -22,12 +21,10 @@ class PosixSetupManager {
                 val tokenKey = askTokenKey(true)
                 if (username != null && tokenKey != null) AuthType.Basic(username, tokenKey) else null
             }
-
             "bearer" -> {
                 val tokenKey = askTokenKey(false)
                 if (tokenKey != null) AuthType.Bearer(tokenKey) else null
             }
-
             else -> null
         }
     }
@@ -49,7 +46,7 @@ class PosixSetupManager {
     }
 
     private fun askRepository(): String? {
-        println("Which repository?:")
+        println("Path to repository:")
         return readlnOrNull()
     }
 
@@ -63,15 +60,15 @@ class PosixSetupManager {
             repositoryPath = repositoryPath,
         )
         FileSystem.SYSTEM.write(CONFIG_FILE) {
-            val json = Json { prettyPrint = true }
             writeUtf8(json.encodeToString(config))
+            println("Config written to $CONFIG_FILE")
         }
     }
 
     fun readConfig(): Config {
         return FileSystem.SYSTEM.read(CONFIG_FILE) {
-            val raw = readUtf8()
-            Json.decodeFromString(raw)
+            val rawData = readUtf8()
+            json.decodeFromString(rawData)
         }
     }
 }
