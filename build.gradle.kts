@@ -15,7 +15,7 @@ repositories {
 kotlin {
     macosX64("native") {
         binaries {
-            executable {
+            executable("tchimp") {
                 entryPoint = "main"
             }
         }
