@@ -2,7 +2,7 @@ name: Pull request
 on: pull_request
 jobs:
   pull_request:
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
