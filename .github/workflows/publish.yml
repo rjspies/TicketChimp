@@ -18,6 +18,6 @@ jobs:
       - name: Upload binary
         uses: svenstaro/upload-release-action@v2
         with:
-          file: build/bin/native/tchimpReleaseExecutable/tchimp.kexe
+          file: ${{ env.GITHUB_WORKSPACE }}/build/bin/native/tchimpReleaseExecutable/tchimp.kexe
           asset_name: tchimp
           overwrite: true
