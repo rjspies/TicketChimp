@@ -40,12 +40,6 @@ This will generate a Git branch with the following naming convention for the Jir
 - If the ticket type is "Bug," the branch name will be: `Bugfix/FOO-420+This-is-the-summary`.
 - If the ticket type is none of the above, the branch name will be: `FOO-420+This-is-the-summary`.
 
-### Examples
-
-```bash
-tchimp foo-420
-```
-
 ### Contributing
 
 Contributions to this project are welcome! If you have any ideas, suggestions, or bug reports, please feel free to open an issue or submit a pull request.
