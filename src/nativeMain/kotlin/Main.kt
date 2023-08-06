@@ -28,6 +28,7 @@ fun main(arguments: Array<String>) {
             val ticketParser = TicketParser(httpClient)
             val issue = ticketParser.parseTicket(ticket!!)
             GitClient().createBranchFromIssue(config.repositoryPath, issue)
+            httpClient.close()
         }
         setupManager.configExists -> {
             println("Provide a ticket number for parsing.")
