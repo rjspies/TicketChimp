@@ -13,7 +13,7 @@ class GitClient {
             ID_SPIKE,
             -> "Feature"
             ID_BUG -> "Bugfix"
-            else -> null
+            else -> ""
         }
 
     private fun String.normalize() = toRegex().run {
