@@ -16,12 +16,16 @@ class GitClient {
             else -> ""
         }
 
-    private fun String.normalize() = toRegex().run {
-        replace("[^a-zA-Z0-9_]", "")
-        toString().replace(" ", "-")
-    }
+    private fun String.normalize() =
+        toRegex().run {
+            replace("[^a-zA-Z0-9_]", "")
+            toString().replace(" ", "-")
+        }
 
-    fun createBranchFromIssue(repository: String, issue: Issue) {
+    fun createBranchFromIssue(
+        repository: String,
+        issue: Issue,
+    ) {
         val branchName = "${issue.fields.issueType.prefix}/${issue.key}+${issue.fields.summary.normalize()}"
 
         system("cd $repository && git branch $branchName").also {

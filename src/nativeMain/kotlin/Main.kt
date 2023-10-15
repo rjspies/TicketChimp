@@ -1,8 +1,8 @@
+import kotlin.system.exitProcess
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.optional
 import kotlinx.coroutines.runBlocking
-import kotlin.system.exitProcess
 
 fun main(arguments: Array<String>) {
     val parser = ArgParser("TicketChimp")

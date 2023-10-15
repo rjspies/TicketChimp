@@ -18,7 +18,10 @@ data class Ticket(val key: String)
 data class Issue(val key: String, val fields: Fields)
 
 @Serializable
-data class Fields(@SerialName("issuetype") val issueType: IssueType, val summary: String)
+data class Fields(
+    @SerialName("issuetype") val issueType: IssueType,
+    val summary: String,
+)
 
 @Serializable
 data class IssueType(val name: String)
