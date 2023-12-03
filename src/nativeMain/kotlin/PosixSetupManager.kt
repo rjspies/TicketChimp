@@ -21,10 +21,12 @@ class PosixSetupManager {
                 val tokenKey = askTokenKey(true)
                 if (username != null && tokenKey != null) AuthType.Basic(username, tokenKey) else null
             }
+
             "bearer" -> {
                 val tokenKey = askTokenKey(false)
                 if (tokenKey != null) AuthType.Bearer(tokenKey) else null
             }
+
             else -> null
         }
     }
@@ -40,7 +42,7 @@ class PosixSetupManager {
     }
 
     private fun askTokenKey(basicAuth: Boolean): String? {
-        println("Token key stored in your environment variables? (not the actual token value):")
+        println("The name of your tokens environment variable? (not the actual token value):")
         if (basicAuth) println("Basic auth also uses the token instead of a password.")
         return readlnOrNull()
     }
