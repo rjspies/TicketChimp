@@ -1,8 +1,8 @@
 name: CI
 on: pull_request
 jobs:
-  pull_request:
-    runs-on: macos-latest
+  linter-tests-assemble:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
