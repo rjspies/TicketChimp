@@ -13,7 +13,7 @@ repositories {
 }
 
 kotlin {
-    macosX64("native") {
+    linuxX64("native") {
         binaries {
             executable("tchimp") {
                 entryPoint = "main"
@@ -22,7 +22,6 @@ kotlin {
     }
 
     sourceSets {
-        @Suppress("UNUSED_VARIABLE")
         val nativeMain by getting {
             dependencies {
                 implementation(libs.bundles.implementation)
