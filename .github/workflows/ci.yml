@@ -8,7 +8,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install libcurl-dev
-        run: apt install libcurl4-openssl-dev
+        run: sudo apt install -y libcurl4-openssl-dev
 
       - name: Detekt
         uses: gradle/gradle-build-action@v2
