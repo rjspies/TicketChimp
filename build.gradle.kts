@@ -13,7 +13,7 @@ repositories {
 }
 
 kotlin {
-    linuxX64("native") {
+    linuxX64 {
         binaries {
             executable("tchimp") {
                 entryPoint = "main"
@@ -22,7 +22,7 @@ kotlin {
     }
 
     sourceSets {
-        val nativeMain by getting {
+        val linuxX64Main by getting {
             dependencies {
                 implementation(libs.bundles.implementation)
             }

@@ -7,20 +7,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install libcurl-dev
+        run: sudo apt install -y libcurl4-openssl-dev
+
       - name: Detekt
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: detektNativeMain detektNativeTest
+          arguments: detekt
 
       - name: Kotlinter
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: lintKotlinNativeMain lintKotlinNativeTest
+          arguments: lintKotlin
 
       - name: Unit tests
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: nativeTest
+          arguments: allTests
 
       - name: Assemble
         uses: gradle/gradle-build-action@v2
