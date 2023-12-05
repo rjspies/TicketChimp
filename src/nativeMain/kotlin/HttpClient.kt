@@ -1,4 +1,5 @@
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.curl.Curl
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.DEFAULT
@@ -20,7 +21,7 @@ import kotlinx.cinterop.toKString
 fun createKtorHttpClient(
     host: String,
     authType: AuthType,
-) = HttpClient {
+) = HttpClient(Curl) {
     install(Resources)
     install(ContentNegotiation) { json(json) }
 
