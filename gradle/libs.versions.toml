@@ -23,7 +23,7 @@ io-gitlab-arturbosch-detekt = { id = "io.gitlab.arturbosch.detekt", version = "1
 [versions]
 
 kotlin = "1.9.22"
-ktor = "2.3.7"
+ktor = "2.3.8"
 group = "com.rjspies"
 version = "2.0.1"
 
